@@ -71,7 +71,7 @@
         <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0, 0)">
           <i data-lucide="crosshair" class="text-[#ff7b00] w-8 h-8"></i>
           <span class="font-title text-2xl tracking-wider text-glow-orange text-white">
-            IRIS <span class="text-[#ff7b00]">CS</span>
+            IRIS 2K26 <span class="text-[#ff7b00]">CS</span>
           </span>
         </div>
       </div>
@@ -149,7 +149,7 @@
     <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
       <div class="flex items-center gap-2 mb-4">
         <i data-lucide="crosshair" class="text-[#ff7b00] w-6 h-6"></i>
-        <span class="font-title text-xl tracking-wider text-white">IRIS <span class="text-[#ff7b00]">CS</span></span>
+        <span class="font-title text-xl tracking-wider text-white">IRIS 2K26 <span class="text-[#ff7b00]">CS</span></span>
       </div>
       <p class="text-gray-600 font-mono text-xs max-w-sm">
         &copy; 2026 VADMED IRIS Esports. Built for Mobile. Not affiliated with Garena.
@@ -264,7 +264,7 @@
       infoContainer.classList.remove('hidden');
 
       document.getElementById('round-title').innerText = activeRound;
-      document.getElementById('round-desc').innerText = bracketData[activeRound].desc || "BATTLE ARENA";
+      document.getElementById('round-desc').innerText = bracketData[activeRound].desc || "CS ARENA";
       
       const container = document.getElementById('matches-container');
       container.innerHTML = '';
@@ -273,7 +273,7 @@
 
       matches.forEach((m, index) => {
         let statusBadge = m.status === 'completed' 
-          ? `<span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[10px] border border-white/10 uppercase">Final</span>`
+          ? `<span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[10px] border border-white/10 uppercase">Completed</span>`
           : m.status === 'live' 
           ? `<span class="bg-[#00ffcc]/10 text-[#00ffcc] px-2 py-0.5 rounded text-[10px] border border-[#00ffcc]/30 animate-pulse uppercase">Live Now</span>`
           : `<span class="bg-[#ff7b00]/10 text-[#ff7b00] px-2 py-0.5 rounded text-[10px] border border-[#ff7b00]/30 uppercase">Upcoming</span>`;
