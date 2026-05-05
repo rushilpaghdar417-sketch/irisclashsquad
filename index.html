@@ -318,9 +318,13 @@
               t1_badge: row.t1_badge || "",
               t2_badge: row.t2_badge || "",
               final: (row.final || "").toLowerCase() === 'true',
-              k1: row.k1 !== "" && row.k1 !== undefined ? row.k1 : null,
-              k2: row.k2 !== "" && row.k2 !== undefined ? row.k2 : null,
-              diff: row.diff || null
+              
+              // New Logic: 5 Maps Round Difference
+              diff1: row.diff1 || '-',
+              diff2: row.diff2 || '-',
+              diff3: row.diff3 || '-',
+              diff4: row.diff4 || '-',
+              diff5: row.diff5 || '-'
             });
           }
         }
@@ -370,7 +374,7 @@
       infoContainer.classList.remove('hidden');
 
       document.getElementById('round-title').innerText = activeRound;
-      document.getElementById('round-desc').innerText = bracketData[activeRound].desc || "BATTLE ARENA";
+      document.getElementById('round-desc').innerText = bracketData[activeRound].desc || "CS ARENA";
       
       const container = document.getElementById('matches-container');
       container.innerHTML = '';
@@ -379,7 +383,7 @@
 
       matches.forEach((m, index) => {
         let statusBadge = m.status === 'completed' 
-          ? `<span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[10px] border border-white/10 uppercase">Final</span>`
+          ? `<span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[10px] border border-white/10 uppercase">Completed</span>`
           : m.status === 'live' 
           ? `<span class="bg-[#00ffcc]/10 text-[#00ffcc] px-2 py-0.5 rounded text-[10px] border border-[#00ffcc]/30 animate-pulse uppercase">Live Now</span>`
           : `<span class="bg-[#ff7b00]/10 text-[#ff7b00] px-2 py-0.5 rounded text-[10px] border border-[#ff7b00]/30 uppercase">Upcoming</span>`;
@@ -451,23 +455,33 @@
 
             </div>
 
-            <!-- 🌀 DOMAIN EXPANSION (Hidden Specific Stats) -->
+            <!-- 🌀 DOMAIN EXPANSION (5 Maps Round Difference) -->
             <div class="domain-expansion max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-black/80 relative z-0 rounded-b-xl border-t border-white/5">
-                <div class="p-4 flex items-center justify-between gap-2 sm:gap-4">
+                <div class="p-3 sm:p-4 flex items-center justify-between gap-1 sm:gap-2">
                     
-                    <div class="flex-1 bg-[#111] p-2 rounded-lg border border-red-500/20 text-center shadow-[inset_0_0_10px_rgba(255,0,0,0.1)]">
-                        <span class="block text-[8px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">T1 Kills</span>
-                        <span class="font-title text-red-500 text-sm sm:text-lg drop-shadow-[0_0_5px_rgba(255,0,0,0.8)]">${m.k1 !== null ? m.k1 : '-'}</span>
+                    <div class="flex-1 bg-[#111] p-1.5 sm:p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.05)]">
+                        <span class="block text-[7px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Map 1</span>
+                        <span class="font-title text-[#00ffcc] text-xs sm:text-base drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff1}</span>
                     </div>
 
-                    <div class="flex-1 bg-[#111] p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.1)]">
-                        <span class="block text-[8px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Round Diff</span>
-                        <span class="font-title text-[#00ffcc] text-sm sm:text-lg drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff !== null ? m.diff : '-'}</span>
+                    <div class="flex-1 bg-[#111] p-1.5 sm:p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.05)]">
+                        <span class="block text-[7px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Map 2</span>
+                        <span class="font-title text-[#00ffcc] text-xs sm:text-base drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff2}</span>
                     </div>
 
-                    <div class="flex-1 bg-[#111] p-2 rounded-lg border border-red-500/20 text-center shadow-[inset_0_0_10px_rgba(255,0,0,0.1)]">
-                        <span class="block text-[8px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">T2 Kills</span>
-                        <span class="font-title text-red-500 text-sm sm:text-lg drop-shadow-[0_0_5px_rgba(255,0,0,0.8)]">${m.k2 !== null ? m.k2 : '-'}</span>
+                    <div class="flex-1 bg-[#111] p-1.5 sm:p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.05)]">
+                        <span class="block text-[7px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Map 3</span>
+                        <span class="font-title text-[#00ffcc] text-xs sm:text-base drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff3}</span>
+                    </div>
+
+                    <div class="flex-1 bg-[#111] p-1.5 sm:p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.05)]">
+                        <span class="block text-[7px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Map 4</span>
+                        <span class="font-title text-[#00ffcc] text-xs sm:text-base drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff4}</span>
+                    </div>
+
+                    <div class="flex-1 bg-[#111] p-1.5 sm:p-2 rounded-lg border border-[#00ffcc]/20 text-center shadow-[inset_0_0_10px_rgba(0,255,204,0.05)]">
+                        <span class="block text-[7px] sm:text-[9px] text-gray-500 font-mono uppercase tracking-widest mb-1">Map 5</span>
+                        <span class="font-title text-[#00ffcc] text-xs sm:text-base drop-shadow-[0_0_5px_rgba(0,255,204,0.8)]">${m.diff5}</span>
                     </div>
 
                 </div>
