@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIS 2K26 - CS Bracket System</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: { 'xs': '480px' }
+        }
+      }
+    }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: #050505;
+      color: #ffffff;
+      margin: 0; padding: 0; overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ff7b00; }
+
+    .font-title { font-family: 'Orbitron', sans-serif; }
+    .font-mono { font-family: 'Share Tech Mono', monospace; }
+
+    .text-glow-orange { text-shadow: 0 0 15px rgba(234, 88, 12, 0.8); }
+    .text-glow-cyan { text-shadow: 0 0 15px rgba(0, 255, 204, 0.8); }
+
+    /* Match Card Hover Effects */
+    .match-card {
+      background: linear-gradient(180deg, rgba(15,15,15,1) 0%, rgba(5,5,5,1) 100%);
+      transition: all 0.3s ease;
+    }
+    .match-card:hover {
+      box-shadow: 0 0 20px rgba(255, 123, 0, 0.15);
+      border-color: rgba(255, 123, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="selection:bg-[#ff7b00] selection:text-black">
+
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://dl.dropboxusercontent.com/scl/fi/ciicyzbjrs57somg2unma/Garena-Free-Fire-Winterlands-2018-Update-Theme-Song-OST-Sinister..-Fbq_2K060YA.mp3?rlkey=qdobu5npmllyx7zb4t8o4vddx&st=kpuls75q&dl=0" type="audio/mpeg">
+  </audio>
+
+  <button id="music-toggle" style="-webkit-tap-highlight-color: transparent; outline: none;" class="fixed bottom-6 right-4 sm:right-6 z-50 px-5 py-3 rounded-full transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer bg-[#111] text-[#ff7b00] border border-[#ff7b00]/50">
+    <i data-lucide="play" id="icon-play" class="w-4 h-4"></i>
+    <i data-lucide="pause" id="icon-pause" class="w-4 h-4 hidden"></i>
+    <span id="music-text" class="font-bold tracking-wider uppercase text-xs font-mono">Play Theme</span>
+  </button>
+
+  <canvas id="snow-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-[100]"></canvas>
+
+  <nav class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0, 0)">
+          <i data-lucide="crosshair" class="text-[#ff7b00] w-8 h-8"></i>
+          <span class="font-title text-2xl tracking-wider text-glow-orange text-white">
+            IRIS <span class="text-[#ff7b00]">CS</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-[#050505]">
+    <div id="parallax-bg" class="absolute inset-0 z-0 pointer-events-none scale-110 transition-transform duration-75 ease-out" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"></div>
+      <div class="absolute inset-0 opacity-[0.15]" style="background-image: linear-gradient(rgba(0, 255, 204, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center mt-10 md:mt-0">
+      <div class="inline-block mb-4 px-4 py-1 border border-[#00ffcc]/30 bg-[#00ffcc]/10 rounded-full text-[#00ffcc] font-mono text-xs sm:text-sm md:text-base tracking-widest uppercase backdrop-blur-sm animate-pulse">
+        CS Knockout System
+      </div>
+      
+      <h1 class="font-title text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 tracking-tighter mb-2 leading-none w-full px-2">
+        CLASH <span class="text-[#ff7b00] text-glow-orange block md:inline mt-2 md:mt-0">SQUAD</span>
+      </h1>
+      
+      <p class="font-mono text-gray-300 mt-4 md:mt-6 text-sm sm:text-base md:text-xl lg:text-2xl max-w-[90%] md:max-w-2xl mx-auto tracking-wide mb-8 md:mb-10 drop-shadow-md">
+        18 Teams. 4v4 Tactical Combat. BO5 Matches. Survive the elimination bracket to claim the ultimate title.
+      </p>
+
+      <a href="#bracket-section" class="group relative px-6 py-4 sm:px-8 bg-transparent text-[#ff7b00] border-2 border-[#ff7b00] font-bold text-sm sm:text-lg uppercase tracking-widest overflow-hidden transition-all hover:text-black text-center w-full sm:w-auto">
+        <div class="absolute inset-0 bg-[#ff7b00] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out z-0"></div>
+        <span class="relative z-10 flex items-center justify-center gap-2">View Matchups <i data-lucide="chevron-down" class="w-4 h-4 sm:w-5 sm:h-5"></i></span>
+      </a>
+    </div>
+  </section>
+
+  <section id="bracket-section" class="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#050505] min-h-screen">
+    
+    <div class="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
+      
+      <div class="w-full mb-12 hidden xs:block">
+        <h3 class="text-center font-mono text-gray-500 uppercase tracking-widest text-xs mb-4">Survival Path</h3>
+        <div class="flex items-center justify-between bg-[#111] border border-white/5 p-4 rounded-xl shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
+          <div class="flex flex-col items-center"><span class="font-title text-xl text-white">18</span><span class="text-[10px] font-mono text-gray-500 uppercase">Start</span></div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+          <div class="flex flex-col items-center"><span class="font-title text-xl text-white">9</span><span class="text-[10px] font-mono text-gray-500 uppercase">Qualify</span></div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+          <div class="flex flex-col items-center relative"><span class="absolute -top-3 text-[10px] text-[#ff7b00]">+1</span><span class="font-title text-xl text-[#00ffcc]">10</span><span class="text-[10px] font-mono text-[#00ffcc] uppercase">Top 10</span></div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+          <div class="flex flex-col items-center relative"><span class="absolute -top-3 text-[10px] text-[#ff7b00]">+1</span><span class="font-title text-xl text-white">6</span><span class="text-[10px] font-mono text-gray-500 uppercase">Top 6</span></div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+          <div class="flex flex-col items-center relative"><span class="absolute -top-3 text-[10px] text-[#ff7b00]">+1</span><span class="font-title text-xl text-[#ff7b00]">4</span><span class="text-[10px] font-mono text-[#ff7b00] uppercase">Semi</span></div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600"></i>
+          <div class="flex flex-col items-center"><span class="font-title text-xl text-red-500 text-glow-orange">2</span><span class="text-[10px] font-mono text-red-500 uppercase">Final</span></div>
+        </div>
+      </div>
+
+      <div id="round-tabs" class="flex overflow-x-auto w-full no-scrollbar justify-start md:justify-center gap-2 sm:gap-4 mb-8 pb-4 border-b border-white/5">
+        <div class="text-gray-500 font-mono text-sm animate-pulse px-4 py-2">FETCHING SECURE DATA...</div>
+      </div>
+
+      <div class="w-full">
+        <div id="round-info" class="flex flex-col items-center mb-8 text-center hidden">
+          <h2 id="round-title" class="font-title text-3xl sm:text-4xl text-white uppercase tracking-wider mb-2"></h2>
+          <div class="inline-block px-3 py-1 bg-[#222] border border-white/10 rounded-full font-mono text-[10px] sm:text-xs text-[#00ffcc] tracking-widest uppercase">
+            <i data-lucide="crosshairs" class="w-3 h-3 inline pb-[2px]"></i> <span id="round-desc"></span>
+          </div>
+        </div>
+
+        <div id="matches-container" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+           </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="bg-black border-t border-white/10 pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col items-center text-center">
+      <div class="flex items-center gap-2 mb-4">
+        <i data-lucide="crosshair" class="text-[#ff7b00] w-6 h-6"></i>
+        <span class="font-title text-xl tracking-wider text-white">IRIS <span class="text-[#ff7b00]">CS</span></span>
+      </div>
+      <p class="text-gray-600 font-mono text-xs max-w-sm">
+        &copy; 2026 VADMED IRIS Esports. Built for Mobile. Not affiliated with Garena.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // ==========================================
+    // ⚔️ GOOGLE SHEETS BRACKET ENGINE
+    // ==========================================
+    
+    // 🔥 YOUR ACTIVE GOOGLE SHEET URL 🔥
+    const BRACKET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS44rcHjDRSWi4LOlPAWjC-yrmmcWmz-zcw6k70xgQyMGICiIPVwfTADeoIa9QL0Vx5rPSQ_yIa6LXY/pub?gid=0&single=true&output=csv";
+
+    let bracketData = {};
+    let rounds = [];
+    let activeRound = "";
+
+    async function fetchAndRenderBracket() {
+      if (!BRACKET_CSV_URL || BRACKET_CSV_URL === "PASTE_YOUR_LINK_HERE") {
+        document.getElementById('round-tabs').innerHTML = `<div class="text-red-500 font-mono text-xs">⚠ PLEASE INSERT YOUR SPREADSHEET LINK</div>`;
+        return;
+      }
+
+      try {
+        const response = await fetch(BRACKET_CSV_URL);
+        const csvText = await response.text();
+        const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+        if (lines.length < 2) return;
+
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+
+        bracketData = {};
+        rounds = [];
+
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(',').map(v => v.trim());
+          const row = {};
+          headers.forEach((h, idx) => { row[h] = values[idx]; });
+
+          const roundName = row.round;
+          if (!roundName) continue;
+
+          if (!bracketData[roundName]) {
+            bracketData[roundName] = { desc: "", matches: [] };
+            rounds.push(roundName);
+          }
+
+          if (row.desc) bracketData[roundName].desc = row.desc;
+
+          if (row.matchid) {
+            bracketData[roundName].matches.push({
+              id: row.matchid,
+              t1: row.team1 || "TBD",
+              s1: row.score1 !== "" && row.score1 !== undefined ? parseInt(row.score1) : null,
+              t2: row.team2 || "TBD",
+              s2: row.score2 !== "" && row.score2 !== undefined ? parseInt(row.score2) : null,
+              status: (row.status || "upcoming").toLowerCase(),
+              t1_badge: row.t1_badge || "",
+              t2_badge: row.t2_badge || "",
+              final: (row.final || "").toLowerCase() === 'true'
+            });
+          }
+        }
+
+        if (rounds.length > 0) {
+           if (!activeRound || !rounds.includes(activeRound)) activeRound = rounds[0];
+           renderTabs();
+           renderMatches();
+        }
+
+      } catch (error) {
+        console.error("Error fetching bracket data:", error);
+      }
+    }
+
+    // ==========================================
+    // UI RENDERING
+    // ==========================================
+    function renderTabs() {
+      const tabsContainer = document.getElementById('round-tabs');
+      tabsContainer.innerHTML = '';
+      
+      rounds.forEach(round => {
+        const btn = document.createElement('button');
+        btn.innerText = round;
+        btn.className = "whitespace-nowrap px-6 py-3 rounded-xl font-bold text-sm tracking-wider transition-all duration-300 border uppercase flex-shrink-0";
+
+        if (activeRound === round) {
+          btn.classList.add('bg-[#ff7b00]', 'text-black', 'border-transparent', 'shadow-[0_0_15px_rgba(255,123,0,0.5)]');
+        } else {
+          btn.classList.add('bg-[#111]', 'text-gray-400', 'border-white/10', 'hover:bg-[#222]', 'hover:text-white');
+        }
+
+        btn.addEventListener('click', () => {
+          if (navigator.vibrate) navigator.vibrate(15); 
+          activeRound = round;
+          renderTabs();
+          renderMatches();
+        });
+
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    function renderMatches() {
+      const infoContainer = document.getElementById('round-info');
+      infoContainer.classList.remove('hidden');
+
+      document.getElementById('round-title').innerText = activeRound;
+      document.getElementById('round-desc').innerText = bracketData[activeRound].desc || "BATTLE ARENA";
+      
+      const container = document.getElementById('matches-container');
+      container.innerHTML = '';
+
+      const matches = bracketData[activeRound].matches;
+
+      matches.forEach((m, index) => {
+        let statusBadge = m.status === 'completed' 
+          ? `<span class="bg-gray-800 text-gray-400 px-2 py-0.5 rounded text-[10px] border border-white/10 uppercase">Final</span>`
+          : m.status === 'live' 
+          ? `<span class="bg-[#00ffcc]/10 text-[#00ffcc] px-2 py-0.5 rounded text-[10px] border border-[#00ffcc]/30 animate-pulse uppercase">Live Now</span>`
+          : `<span class="bg-[#ff7b00]/10 text-[#ff7b00] px-2 py-0.5 rounded text-[10px] border border-[#ff7b00]/30 uppercase">Upcoming</span>`;
+
+        let s1 = m.s1 !== null && !isNaN(m.s1) ? m.s1 : '-';
+        let s2 = m.s2 !== null && !isNaN(m.s2) ? m.s2 : '-';
+        
+        let t1Color = m.s1 > m.s2 ? "text-[#ff7b00] font-black" : m.s1 !== null ? "text-gray-500" : "text-white";
+        let t2Color = m.s2 > m.s1 ? "text-[#ff7b00] font-black" : m.s2 !== null ? "text-gray-500" : "text-white";
+        
+        let s1Color = m.s1 > m.s2 ? "text-white text-glow-orange drop-shadow-[0_0_5px_#ff7b00]" : "text-gray-400";
+        let s2Color = m.s2 > m.s1 ? "text-white text-glow-orange drop-shadow-[0_0_5px_#ff7b00]" : "text-gray-400";
+
+        let t1BadgeHTML = m.t1_badge ? `<div class="absolute -top-3 left-4 bg-purple-600/20 text-purple-400 border border-purple-500/50 text-[8px] font-mono px-2 py-0.5 rounded-full uppercase tracking-widest backdrop-blur-sm z-20"><i data-lucide="star" class="w-2 h-2 inline"></i> ${m.t1_badge}</div>` : '';
+        let t2BadgeHTML = m.t2_badge ? `<div class="absolute -top-3 right-4 bg-purple-600/20 text-purple-400 border border-purple-500/50 text-[8px] font-mono px-2 py-0.5 rounded-full uppercase tracking-widest backdrop-blur-sm z-20"><i data-lucide="star" class="w-2 h-2 inline"></i> ${m.t2_badge}</div>` : '';
+        
+        let cardStyle = m.final 
+          ? "border-red-500/50 shadow-[0_0_30px_rgba(255,0,0,0.15)] bg-gradient-to-b from-red-950/40 to-black" 
+          : "border-white/10 bg-[#0a0a0a]";
+
+        let html = `
+          <div class="match-card relative flex flex-col border rounded-xl overflow-visible mb-2 sm:mb-0 ${cardStyle}">
+            
+            ${t1BadgeHTML}
+            ${t2BadgeHTML}
+
+            <div class="bg-[#111] px-4 py-2.5 flex justify-between items-center border-b border-white/5 rounded-t-xl">
+              <span class="text-[10px] sm:text-xs font-mono text-gray-500 tracking-widest uppercase">Match ${m.id}</span>
+              ${statusBadge}
+            </div>
+
+            <div class="flex items-center justify-between p-4 sm:p-6 relative">
+              <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+                <span class="font-title text-5xl italic">VS</span>
+              </div>
+
+              <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-[35%] z-10 text-center sm:text-left">
+                 <div class="w-10 h-10 sm:w-12 sm:h-12 bg-black border border-white/20 rounded-md flex items-center justify-center shrink-0 shadow-inner">
+                   <span class="font-title font-bold text-gray-400 text-sm">${m.t1.substring(0,2).toUpperCase()}</span>
+                 </div>
+                 <span class="font-bold text-xs sm:text-sm tracking-wide ${t1Color} uppercase line-clamp-2 leading-tight">${m.t1}</span>
+              </div>
+
+              <div class="flex items-center justify-center gap-3 sm:gap-5 w-[30%] z-10 bg-black/40 py-2 rounded-lg border border-white/5">
+                 <div class="text-2xl sm:text-3xl font-title ${s1Color} w-6 text-center">${s1}</div>
+                 <span class="text-gray-700 font-mono text-xs">-</span>
+                 <div class="text-2xl sm:text-3xl font-title ${s2Color} w-6 text-center">${s2}</div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row-reverse items-center gap-2 sm:gap-4 w-[35%] z-10 text-center sm:text-right">
+                 <div class="w-10 h-10 sm:w-12 sm:h-12 bg-black border border-white/20 rounded-md flex items-center justify-center shrink-0 shadow-inner">
+                   <span class="font-title font-bold text-gray-400 text-sm">${m.t2.substring(0,2).toUpperCase()}</span>
+                 </div>
+                 <span class="font-bold text-xs sm:text-sm tracking-wide ${t2Color} uppercase line-clamp-2 leading-tight">${m.t2}</span>
+              </div>
+
+            </div>
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // ❄️ SNOW & GYRO EFFECTS
+    // ==========================================
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let snowflakes = [];
+    const maxFlakes = window.innerWidth < 768 ? 40 : 100;
+
+    for (let i = 0; i < maxFlakes; i++) {
+      snowflakes.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 2 + 0.5, d: Math.random() * 1 + 0.5 });
+    }
+
+    let angle = 0;
+    function loopSnow() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; 
+      ctx.beginPath();
+      angle += 0.01;
+      for (let i = 0; i < maxFlakes; i++) {
+        let f = snowflakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        f.y += Math.cos(angle + f.d) + 1 + f.r / 2;
+        f.x += Math.sin(angle) * 1.5;
+        if (f.x > width + 5 || f.x < -5 || f.y > height) {
+          snowflakes[i] = { x: Math.random() * width, y: -10, r: f.r, d: f.d };
+        }
+      }
+      ctx.fill();
+      requestAnimationFrame(loopSnow);
+    }
+    loopSnow();
+
+    let initialBeta = null, initialGamma = null;
+    window.addEventListener('deviceorientation', (e) => {
+      if (!e.beta || !e.gamma) return;
+      if (initialBeta === null) initialBeta = e.beta;
+      if (initialGamma === null) initialGamma = e.gamma;
+      let x = Math.max(-25, Math.min(25, e.gamma - initialGamma)); 
+      let y = Math.max(-25, Math.min(25, e.beta - initialBeta));   
+      const parallaxBg = document.getElementById('parallax-bg');
+      if (parallaxBg) parallaxBg.style.transform = `scale(1.1) translate(${x * -0.6}px, ${y * -0.6}px)`;
+    });
+
+    // 🎵 MUSIC TOGGLE
+    const bgMusic = document.getElementById('bg-music');
+    const musicToggle = document.getElementById('music-toggle');
+    bgMusic.volume = 0.3; 
+    musicToggle.addEventListener('click', (e) => {
+      if (navigator.vibrate) navigator.vibrate(20); 
+      if (bgMusic.paused) {
+        bgMusic.play();
+        document.getElementById('icon-play').classList.add('hidden');
+        document.getElementById('icon-pause').classList.remove('hidden');
+        document.getElementById('music-text').innerText = "Pause";
+      } else {
+        bgMusic.pause();
+        document.getElementById('icon-play').classList.remove('hidden');
+        document.getElementById('icon-pause').classList.add('hidden');
+        document.getElementById('music-text').innerText = "Play";
+      }
+    });
+
+    // INIT
+    fetchAndRenderBracket();
+    
+    // Auto-refresh bracket every 30 seconds so users don't have to reload page!
+    setInterval(fetchAndRenderBracket, 30000);
+  </script>
+</body>
+</html>
