@@ -525,7 +525,7 @@
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
     let snowflakes = [];
-    const maxFlakes = window.innerWidth < 768 ? 40 : 100;
+    const maxFlakes = window.innerWidth < 768 ? 50 : 150;
 
     for (let i = 0; i < maxFlakes; i++) {
       snowflakes.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 2 + 0.5, d: Math.random() * 1 + 0.5 });
